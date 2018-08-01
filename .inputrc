@@ -1,3 +1,13 @@
 "\e[A": history-search-backward            # arrow up
 "\e[B": history-search-forward             # arrow down
 
+## Immediately expand list of possible word completions, rather than ringing the bell
+set show-all-if-ambiguous on
+
+## Search for possible completions in a case-insensitive manner
+set completion-ignore-case on
+
+## Windows GitBash Ctrl + arrow left
+";5D": backward-word
+## Windows GitBash Ctrl + arrow right
+";5C": forward-word
