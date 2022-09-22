@@ -1,0 +1,6 @@
+wd() {
+    . ~/.local/wd/wd.sh
+}
+
+alias k="kubectl"
+alias tf="terraform"

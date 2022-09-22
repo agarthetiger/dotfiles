@@ -1,0 +1,15 @@
+# git aliases
+alias gfp="git fetch --all --tags --prune && git pull"
+alias gs="git status -sb"
+alias ga="git add"
+alias gau="git add -u"
+alias gc="git commit -m"
+alias gp="git push"
+alias gpo="git push -u origin HEAD"
+alias gd="git diff"
+
+gcap() {
+	gau
+	gc "$1"
+	gp
+}
