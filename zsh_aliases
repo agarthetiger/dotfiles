@@ -1,0 +1,22 @@
+alias cat='bat'
+alias hitn="hint"
+alias k="kubectl"
+alias less='bat --paging always'
+alias ls="lsd"
+alias ports="lsof -nPl -iTCP -sTCP:LISTEN"
+alias tf="terraform"
+
+# Suffixes!
+# utility function; open script files in vim if not executable, otherwise execute
+__exec_or_vim() {
+    if [[ -x $1 ]]; then
+        $1
+    else
+        vim $1
+    fi
+}
+alias -s {sh,zsh,py,rb}=__exec_or_vim
+alias -s {txt,json,ini}=vim
+alias -s log=bat
+alias -s git='git clone'
+alias -s {md,yml,yaml}='code'

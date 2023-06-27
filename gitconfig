@@ -1,0 +1,20 @@
+# This is Git's per-user configuration file.
+[user]
+	name = Andrew Garner
+	email = agarthetiger@users.noreply.github.com
+[merge]
+	ff = no
+[pull]
+	ff = yes
+[credential]
+	helper = osxkeychain
+[alias]
+  unstage = reset HEAD --
+  who = log --pretty=format:'%C(yellow)%h%Creset %ad | %Cgreen%s%Creset %Cred%d%Creset %C(cyan)[%an]' --date=short --since=3.months --
+[init]
+	defaultBranch = main
+[core]
+	autocrlf = false
+[push]
+	autoSetupRemote = true
+	default = current

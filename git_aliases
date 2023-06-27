@@ -5,8 +5,12 @@ alias ga="git add"
 alias gau="git add -u"
 alias gc="git commit -m"
 alias gp="git push"
+alias gcb="git checkout -b"
+# This can be configured to push by default so shouldn't be required anymore
 alias gpo="git push -u origin HEAD"
 alias gd="git diff"
+alias glo="git log --oneline"
+alias gt='git branch --merged | egrep -v "(^\*|master|main|dev)" | xargs git branch -d'
 
 gcap() {
 	gau

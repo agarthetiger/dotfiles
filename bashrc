@@ -11,7 +11,7 @@ HISTTIMEFORMAT="%d/%m/%y %T "
 HISTFILESIZE=1000000000
 
 
-# Enable multiple simultaneous terminal sessions to all save their command history 
+# Enable multiple simultaneous terminal sessions to all save their command history
 shopt -s histappend
 
 # Hack to immediately append commands to the command history, not just when the session ends
@@ -29,7 +29,7 @@ alias gc="git commit -m"
 alias gp="git push"
 
 gcap() {
-	ga .
+	gau
 	gc "$1"
 	gp
 }
@@ -37,18 +37,9 @@ gcap() {
 # Uncomment the following line if you don't like systemctl's auto-paging feature:
 # export SYSTEMD_PAGER=
 
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash
+
 # User specific aliases and functions
-
-# Get path to installed git version, differs on ODD and GitBash
-git_path=$(which git)
-
-# Alias for config command to manage dotfiles and Git
-alias config="$git_path --git-dir=$HOME/.cfg/ --work-tree=$HOME"
-alias cs='config status'
-alias ca='config add'
-alias cc='config commit -m'
-alias cca='config commit -am'
-alias cpush='config push'
 
 # Display Git branch and status on the command line prompt
 # See https://fedoraproject.org/wiki/Git_quick_reference for commands and
@@ -68,7 +59,7 @@ NO_COLOUR="\[\033[0m\]"
 shopt -s promptvars
 export PS1="${PURPLE}\u@\h${NO_COLOUR} ${YELLOW}\W${CYAN} \$(__git_ps1 "%s") ${NO_COLOUR}"$'\n\$ '
 
-# Allow sourcing of additional options for specific hosts. 
+# Allow sourcing of additional options for specific hosts.
 # I use this for loading Windows/GitBash specifics on my development laptop.
 if [ -e ~/.bashrc-$(hostname) ]
 then

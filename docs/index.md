@@ -1,40 +1,63 @@
 # dotfiles
 
-*"Learn from history or be doomed to repeat it" - George Santayana (probably)*
+* "Learn from history or be doomed to repeat it" - George Santayana (probably)*
 
 If you spend any time working with a command prompt it's worth learning about dotfiles. Little things like typing the beginning of a command and pressing the up arrow to search backwards through your command history for matching commands are the tip of the useful iceberg. dotfiles are as old as the universe, give or take a few billion years, and well worth a few hours to delve into. Your investment of time learning about what you can do will be well rewarded.
 
-Learn more my dotfiles by having a browse here, or get started learning about other peoples dotfiles at https://dotfiles.github.io/
+Learn more my dotfiles by having a browse here, or get started learning about other peoples [dotfiles on GitHub](https://dotfiles.github.io/)
 
-## Features
-Features enabled by the dotFiles include
+## Overview
 
-* Command history search from partially typed command, using the up arrow
-* Save command history, and write history to file immediately, so history is available across login sessions and not lost if a session is closed unexpectedly
-* Alias git commands for less typing. Yes, I know I could create aliases in git config, but these still require typing "git " and I prefer to use shorter shortcuts like "gs" to execute "git status -sb".
-* Alias 'config' commands which are aliases for git commands specific to committing and pushing updates to versioned dotfiles
-* Command line prompt colours and git branch display as per GitBash
+My current implementation uses `rcm` to [manage my dotfiles](https://thoughtbot.com/upcase/videos/manage-and-share-your-dotfiles-with-rcm) on any given host. `rcm` does not manage the synchronisation of these files between hosts, that part is managed using git with GitHub but it is not automatic. I have to use my usual workflow to commit and push changes in order to pull them down on other hosts.
 
-## Using this repo
-### Checkout on a new VM
-"Standing on the shoulders of giants", or at least other people's work. The steps below are my personal take on what I read on https://developer.atlassian.com/blog/2016/02/best-way-to-store-dotfiles-git-bare-repo/
-    
-```bash
-echo ".cfg" >> ~/.gitignore
-git clone --bare git@github.com:agarthetiger/dotfiles.git ~/.cfg
-# This should be in the .bashrc in version control, adding into the shell scope temporarily to make checkout easier later.
-alias config='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
-config checkout
-# This will most likely list files which already exist on the local machine. 
-# Remove the local files only after checking that the files listed don't contain anything which files from GitHub don't. 
-# Without moving/removing these the checkout will fail. 
-rm .bashrc
-rm .bash_profile
-# Once the local cleanup/backup is done, run the checkout again
-config checkout
+## Usage
+
+### Checkout on a new host
+
+```sh
+# Install rcm
+brew install rcm
+
+# Clone the repo
+git clone https://github.com/agarthetiger/dotfiles.git ~/.dotfiles
+
+# Bootstrap configuration
+cd ~/.dotfiles
+RCRC=~/.dotfiles/rcrc
+
+# List what will be managed
+lsrc
+
+# Run rcm to set things up. User will be promoted for any files which would be overwritten.
+rcup
 ```
 
-This could all be added to a script which could be downloaded from t'internet and piped directly into bash, but I'm not going to encourage or propagate that kind of behaviour. Seriously, [are you looking to get pwned](https://www.idontplaydarts.com/2016/04/detecting-curl-pipe-bash-server-side/)?
+### Making changes
 
-### Updating local from remote and committing local changes
-The `config` command now aliases the git command, specifically for the dotfiles .cfg repo. I use aliases `gs`, `ga`, `gc` and `gp` for Git to check status, add, commit and push, so I've created similar aliases for `config` as `cs`, `ca`, and `cc`. `ca` differs from `ga` as I often want to add everything that has changed, but in this case also want to exclude untracked files, which is everything else in the home directory.
+As all the files are sym-linked, updating any file is as simple as editing the file(s) locally.
+
+### Pushing changes
+
+Note `gcap` is one of my local aliases to add (update) all git-managed files, use the following string as the commit message, commit and push the current branch.
+
+```sh
+cd ~/.dotfiles && gcap ""
+```
+
+### Pulling changes
+
+```sh
+cd ~/.dotfiles && git pull
+```
+
+## Challenges
+
+* Often my username will differ between machines, so setting the full path to my home folder will not result in portable configutation. Check for differences and update scripts to use `$HOME` instead of the full explicit path, and hope everything plays nicely with this!
+* Files like zshrc will contain configuration for multiple other tools. All of those also need to be managed, otherwise you may end up with a broken system. External dependencies need to be installed in the same way, such as warp dir, pipx, fzf, etc.
+* Where I know will have configuration I don't want to sync, often from work laptops, this config needs to be sourced from a separate file(s) not managed with rcm. This can mean splitting configuration for a tool across two files, one to be sync'd and one to remain local to my work machine. This can increase complexity.
+* If you're starting from scratch, you may have to invest time in merging configuration files from multiple machines, remove and re-install packages by the same installation method, or figure out how you manually configured something in the first place.
+
+## References
+
+* [RTM](https://thoughtbot.github.io/rcm/)
+* [Thoughtbot video intro](https://thoughtbot.com/upcase/videos/manage-and-share-your-dotfiles-with-rcm)
