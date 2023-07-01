@@ -5,6 +5,11 @@ if [ -f /etc/bashrc ]; then
 	. /etc/bashrc
 fi
 
+VIM_EXE=`which vim`
+if [ -e $VIM_EXE ]; then
+	alias vi='vim'
+fi
+
 # Increase command history
 HISTSIZE=1000000
 HISTTIMEFORMAT="%d/%m/%y %T "

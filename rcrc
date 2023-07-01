@@ -1,2 +1,2 @@
-EXCLUDES="docs .github README.md"
+EXCLUDES="docs .github gitconfig README.md"
 TAGS="git"

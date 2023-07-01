@@ -1,3 +1,5 @@
+syntax on
+
 "Indenting for yaml files, from
 "https://stackoverflow.com/questions/26962999/wrong-indentation-when-editing-yaml-in-vim
 autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab

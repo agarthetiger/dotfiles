@@ -16,9 +16,23 @@ zle -N up-line-or-beginning-search
 zle -N down-line-or-beginning-search
 bindkey "^[[A" up-line-or-beginning-search # Up
 bindkey "^[[B" down-line-or-beginning-search # Down
-bindkey "[C" forward-word
-bindkey "[D" backward-word
+bindkey '[C' forward-word
+bindkey '[D' backward-word
+bindkey '\e[1~' beginning-of-line
+bindkey '\e[4~' end-of-line
 
+export TERM="xterm-256color"
+export EDITOR="vim"
+
+COMPLETION_WAITING_DOTS="true"
+
+# Tab completion of SSH hostnames, including files in ~/.ssh/conf.d
+# Note ~/.ssh/config needs the directive Include ~/.ssh/conf.d/* for this to work
+# See https://www.codyhiar.com/blog/zsh-autocomplete-with-ssh-config-file/
+# Highlight the current autocomplete option
+zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
+# Don't autocomplete from ip addresses in known_hosts
+zstyle ':completion:*:ssh:*' hosts off
 
 # ZSH history
 HISTFILE=~/.zhistory
@@ -51,34 +65,53 @@ if [ -r ~/.git_aliases ]; then
 fi
 
 # A separate file that gets sourced; convenient for putting things you may not want to upstream
-() { local FILE="$ZDOTDIR/ignore.zsh" && test -f $FILE && . $FILE }
+() { local FILE="$ZDOTDIR/.zsh_local" && test -f $FILE && . $FILE }
 
 ###############################################################################
 # p10k
 ###############################################################################
-source /opt/homebrew/opt/powerlevel10k/powerlevel10k.zsh-theme
+source $(brew --prefix)/opt/powerlevel10k/powerlevel10k.zsh-theme
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+
 ###############################################################################
 # Antigen
 ###############################################################################
-
-source /opt/homebrew/Cellar/antigen/2.2.3/share/antigen/antigen.zsh
+source $(brew --prefix)/Cellar/antigen/2.2.3/share/antigen/antigen.zsh
 
 antigen bundle zsh-users/zsh-syntax-highlighting
 antigen bundle mfaerevaag/wd
 antigen bundle command-not-found
 antigen apply
+
+###########################################################
+# direnv - See https://direnv.net/
+###########################################################
+eval "$(direnv hook bash)"
+
+###########################################################
+# kubeswitch
+###########################################################
+INSTALLATION_PATH=$(brew --prefix switch) && source $INSTALLATION_PATH/switch.sh
+
 ###############################################################################
 # Pipx
 ###############################################################################
-autoload -U bashcompinit
-bashcompinit
-
+# These next two lines are to support using "complete" with zsh. pipx arg complete needs this.
+# See https://github.com/eddiezane/lunchy/issues/57
+autoload -U +X bashcompinit && bashcompinit
+autoload -U +X compinit && compinit
 eval "$(register-python-argcomplete pipx)"
-
 export PATH="$PATH:$HOME/.local/bin"
+
+###########################################################
+# poetry
+###########################################################
+# Must come before compinit
+# PATH="$PATH:$HOME/.poetry/bin"
+fpath+=~/.zfunc
+
 ###############################################################################
 # Pyenv
 ###############################################################################
@@ -95,6 +128,12 @@ eval "$(pyenv init -)"
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 # Enable Alt + c keybinding on MacOS, suggestion from https://github.com/junegunn/fzf/issues/164
 bindkey "ç" fzf-cd-widget
+
+# hint
+#eval "$(_HINT_COMPLETE=zsh_source hint)"
+
+# 1Password cli (op)
+eval "$(op completion zsh)"; compdef _op op
 
 # The next line updates PATH for the Google Cloud SDK.
 if [ -f '$HOME/google-cloud-sdk/path.zsh.inc' ]; then . '$HOME/google-cloud-sdk/path.zsh.inc'; fi
