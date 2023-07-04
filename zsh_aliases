@@ -1,7 +1,9 @@
 # Aliases to load into zsh
 [ -e `which vim` ] && alias vi='vim'
 
+alias brew='arch -arm64 brew'
 alias cat='bat'
+alias funcs='print -l ${(ok)functions[(I)[^_]*]}'
 alias hitn='hint'
 alias k='kubectl'
 alias less='bat --paging always'
@@ -10,6 +12,7 @@ alias ll='lsd -al'
 alias ltr='lsd -ltr'
 alias ports='lsof -nPl -iTCP -sTCP:LISTEN'
 alias tf='terraform'
+alias untar='tar -zxvf'
 
 # Suffixes!
 # utility function; open script files in vim if not executable, otherwise execute

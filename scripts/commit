@@ -1,0 +1,12 @@
+#!/bin/sh
+
+TYPE=$(gum choose "fix" "feat" "docs" "style" "refactor" "test" "chore" "revert")
+SCOPE=$(gum input --header "scope")
+
+test -n "$SCOPE" && SCOPE="($SCOPE)"
+
+TITLE=$(gum input --value "$TYPE$SCOPE: " --header "Title of this change")
+DESCRIPTION=$(gum write --width=80 --char-limit=0 --header "Details of this change (CTRL+D to finish)")
+
+gum confirm "Commit changes?" && git commit -m "$TITLE" -m "$DESCRIPTION"
+
