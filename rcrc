@@ -1,2 +1,4 @@
 EXCLUDES="docs .github gitconfig README.md"
-TAGS="git"
+SYMLINK_DIRS="vim"
+# UNDOTTED="texmf"
+# TAGS="git"
