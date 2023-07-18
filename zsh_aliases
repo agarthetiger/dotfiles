@@ -1,7 +1,7 @@
 # Aliases to load into zsh
 [ -e `which vim` ] && alias vi='vim'
 
-alias brew='arch -arm64 brew'
+#alias brew='arch -arm64 brew'
 alias cat='bat'
 alias funcs='print -l ${(ok)functions[(I)[^_]*]}'
 alias hitn='hint'
