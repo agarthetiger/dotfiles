@@ -11,6 +11,7 @@ alias gpo="git push -u origin HEAD"
 alias gd="git diff"
 alias glo="git log --oneline"
 alias gt='git branch --merged | egrep -v "(^\*|master|main|dev)" | xargs git branch -d'
+alias gcmp='git checkout main && gfp'
 
 gcap() {
 	gau

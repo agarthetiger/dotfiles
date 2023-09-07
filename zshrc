@@ -22,7 +22,9 @@ bindkey '\e[1~' beginning-of-line
 bindkey '\e[4~' end-of-line
 
 export TERM="xterm-256color"
-export EDITOR="vim"
+# export EDITOR="vim"
+# Setting EDITOR=vim will stop Ctrl + char working as I expect. Use this to fix the terminal. This affects the VS Code terminal not iTerm2.
+bindkey -e
 
 COMPLETION_WAITING_DOTS="true"
 
@@ -95,6 +97,14 @@ eval "$(direnv hook zsh)"
 ###########################################################
 INSTALLATION_PATH=$(brew --prefix switch) && source $INSTALLATION_PATH/switch.sh
 
+###########################################################
+# nvm
+###########################################################
+export NVM_DIR="$HOME/.nvm"
+NVM_PATH=$(brew --prefix nvm)
+[ -s "$NVM_PATH/nvm.sh" ] && \. "$NVM_PATH/nvm.sh"
+[ -s "$NVM_PATH/etc/zsh_completion.d/nvm" ] && \. "$NVM_PATH/etc/zsh_completion.d/nvm"
+
 ###############################################################################
 # Pipx
 ###############################################################################
@@ -130,10 +140,15 @@ eval "$(pyenv init -)"
 bindkey "ç" fzf-cd-widget
 
 # hint
+# This isn't working, I think because I changed away from setup.py...
 #eval "$(_HINT_COMPLETE=zsh_source hint)"
 
+# tfswitch
+export PATH=$PATH:/Users/garneran/bin
+
 # 1Password cli (op)
-eval "$(op completion zsh)"; compdef _op op
+# This is slow, find a better way to do this like pre-evaluating the completion script...
+#eval "$(op completion zsh)"; compdef _op op
 
 # The next line updates PATH for the Google Cloud SDK.
 if [ -f '$HOME/google-cloud-sdk/path.zsh.inc' ]; then . '$HOME/google-cloud-sdk/path.zsh.inc'; fi
