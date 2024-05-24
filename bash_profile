@@ -81,3 +81,7 @@ HISTTIMEFORMAT='%F %T '
 eval "$(register-python-argcomplete pipx)"
 
 export PATH="$HOME/.poetry/bin:$PATH"
+
+### MANAGED BY RANCHER DESKTOP START (DO NOT EDIT)
+export PATH="/Users/garneran/.rd/bin:$PATH"
+### MANAGED BY RANCHER DESKTOP END (DO NOT EDIT)

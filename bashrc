@@ -70,3 +70,7 @@ if [ -e ~/.bashrc-$(hostname) ]
 then
 	. ~/.bashrc-$(hostname)
 fi
+
+### MANAGED BY RANCHER DESKTOP START (DO NOT EDIT)
+export PATH="/Users/garneran/.rd/bin:$PATH"
+### MANAGED BY RANCHER DESKTOP END (DO NOT EDIT)
